@@ -3,6 +3,7 @@
 (require rackunit)
 (require rackunit/text-ui)
 
+
 ;#
 ;(define exemplo-tests
 ;  (test-suite
@@ -13,6 +14,8 @@
 
 
 ;;;;;;;;;;;;;;;; Exercício 3.1 ;;;;;;;;;
+
+;Defina uma função que verifique se um determinado elemento está em uma lista.
 
 (define esta-na-lista-tests
   (test-suite
@@ -30,6 +33,8 @@
 
 
 ;;;;;;;;;;;; Exercício 3.2 ;;;;;;;;;;;;;;
+;;Defina uma função que receba com entrada uma lista lst e um elemento a e devolva uma lista que é
+;;como lst mas sem as ocorrências de a.
 
 (define remove-n-tests
   (test-suite
@@ -47,6 +52,9 @@
     
 
 ;;;; Exercício 3.7 ;;;;;;
+;;Defina uma função
+;;que receba como entrada uma lista lst de número naturais e devolva uma lista
+;que é como lst mas sem números pares
 
 (define par-tests
   (test-suite
@@ -58,30 +66,42 @@
 (define pares-nataurais-tests
   (test-suite
    "pares naturais"
-   (check-equal? (pares-naturais empty) empty)
-   (check-equal? (pares-naturais (list 5)) empty)
-   (check-equal? (pares-naturais (list 2 5 3 6 7 5)) (list 2 6))))
+   (check-equal? (sem-pares-naturais empty) empty)
+   (check-equal? (sem-pares-naturais (list 5)) (list 5))
+   (check-equal? (sem-pares-naturais (list 2)) empty)
+   (check-equal? (sem-pares-naturais (list 2 5 3 6 7 5)) (list 5 3 7 5))))
 
 (define (par? x)
     (equal? (modulo x 2) 0))
 
-(define (pares-naturais lst)
+(define (sem-pares-naturais lst)
   (cond
     [(empty? lst) empty]
-    [(par? (first lst)) (cons (first lst) (pares-naturais (rest lst))) ]
-    [else (pares-naturais (rest lst))]))
+    [(not(par? (first lst))) (cons (first lst) (sem-pares-naturais (rest lst))) ]
+    [else (sem-pares-naturais (rest lst))]))
 
 
 ;;;;;;; Exercício 3.8 ;;;;;;
+;Defina uma função que devolva o último elemento de uma lista.
+;Use a função error (com uma string de mensagem como argumento) para indicar erro se a lista for vazia.
+
 (define ultimo-numero-tests
   (test-suite
-   "pares naturais"
-   (check-error (ultimo-numero empty) "Erro: lista vazia")
+   "último número"
+   (check-exn exn:fail? (thunk (ultimo-numero empty)))
    (check-equal? (ultimo-numero (list 5)) 5)
    (check-equal? (ultimo-numero (list 2 5 3 6 7)) 7)))
 
+(define (ultimo-numero lst)
+  (cond
+    [(empty? lst) (error "Lista vazia")]
+    [(empty? (rest lst)) (first lst)]
+    [else (ultimo-numero (rest lst))]))
+
 
 ;;;;;;; Exercício 3.11 ;;;;;;
+
+
 
 
 ;;;;;;; Exercício 3.12 ;;;;;;
@@ -106,5 +126,6 @@
 (executa-testes esta-na-lista-tests
                 remove-n-tests
                 par-tests
-                pares-nataurais-tests)
+                pares-nataurais-tests
+                ultimo-numero-tests)
      
