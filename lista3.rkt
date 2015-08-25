@@ -101,8 +101,31 @@
 
 ;;;;;;; Exercício 3.11 ;;;;;;
 
+(define (insere-ordenado n lst)
+  (cond
+    [(empty? lst) (list n)]
+    [(n . < . (first lst)) (cons n lst)]
+    [else (cons (first lst)
+                (insere-ordenado n (rest lst)))]))
+
+(define ordena-crescente-tests
+  (test-suite
+   "ordena crescente"
+   (check-equal? (ordena-crescente empty) empty)
+   (check-equal? (ordena-crescente (list 2 5 3 6 7)) (list 2 3 5 6 7))
+   (check-equal? (ordena-crescente (list 2 5 3 6 7 1 3)) (list 1 2 3 3 5 6 7))))
 
 
+(define (ordena-crescente lst)
+  (define (oc-ac lista)
+    (cond
+      [(empty? lst) empty]
+      [else (oc-ac (insere-ordenado (first lst) lista))]
+      )
+ )
+  (oc-ac empty)
+  )
+          
 
 ;;;;;;; Exercício 3.12 ;;;;;;
 
@@ -127,5 +150,6 @@
                 remove-n-tests
                 par-tests
                 pares-nataurais-tests
-                ultimo-numero-tests)
+                ultimo-numero-tests
+                ordena-crescente-tests)
      
