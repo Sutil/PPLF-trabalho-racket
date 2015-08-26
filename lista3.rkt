@@ -128,20 +128,20 @@
 
 ;;;;;;; Exercício 3.12 ;;;;;;
 
-#;(define remove-duplicados-tests
+(define remove-duplicados-tests
   (test-suite
    "remove duplicados"
    (check-equal? (remove-duplicados empty) empty)
    (check-equal? (remove-duplicados (list 2 2 5 3 6 6 7)) (list 2 5 3 6 7))
    (check-equal? (remove-duplicados (list 2 2 5 5 5 5 3 3 6 6 7 7 1 1 3 3)) (list 2 5 3 6 7 1 3))))
 
-#;(define (remove-duplicados lst)
+(define (remove-duplicados lst)
   (cond
     [(empty? lst) empty]
-    [else
-      (if(equal? (first lst) (first (rest lst))) (remove-duplicados (rest lst)) (cons (first lst) (remove-duplicados (rest lst))) )
-
-     ]
+    [(empty? (rest lst)) (cons (first lst) empty)]
+    [else(if (equal? (first lst) (first (rest lst)))
+             (remove-duplicados (rest lst))
+             (cons (first lst) (remove-duplicados (rest lst))))]
     ))
 
 ;;;;;;; Exercício 3.13 ;;;;;;
@@ -167,6 +167,6 @@
                 pares-nataurais-tests
                 ultimo-numero-tests
                 ordena-crescente-tests
-                ;remove-duplicados-tests
+                remove-duplicados-tests
                 )
      
