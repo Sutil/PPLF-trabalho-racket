@@ -116,18 +116,33 @@
    (check-equal? (ordena-crescente (list 2 5 3 6 7 1 3)) (list 1 2 3 3 5 6 7))))
 
 
+(define (ordena-crescente-lista lst1 lst2)
+  (cond
+    [(empty? lst1) lst2]
+    [else (ordena-crescente-lista (rest lst1) (insere-ordenado (first lst1) lst2) )  ]))
+
 (define (ordena-crescente lst)
-  (define (oc-ac lista)
-    (cond
-      [(empty? lst) empty]
-      [else (oc-ac (insere-ordenado (first lst) lista))]
-      )
- )
-  (oc-ac empty)
-  )
+  (ordena-crescente-lista lst empty))
+
           
 
 ;;;;;;; Exercício 3.12 ;;;;;;
+
+#;(define remove-duplicados-tests
+  (test-suite
+   "remove duplicados"
+   (check-equal? (remove-duplicados empty) empty)
+   (check-equal? (remove-duplicados (list 2 2 5 3 6 6 7)) (list 2 5 3 6 7))
+   (check-equal? (remove-duplicados (list 2 2 5 5 5 5 3 3 6 6 7 7 1 1 3 3)) (list 2 5 3 6 7 1 3))))
+
+#;(define (remove-duplicados lst)
+  (cond
+    [(empty? lst) empty]
+    [else
+      (if(equal? (first lst) (first (rest lst))) (remove-duplicados (rest lst)) (cons (first lst) (remove-duplicados (rest lst))) )
+
+     ]
+    ))
 
 ;;;;;;; Exercício 3.13 ;;;;;;
 
@@ -151,5 +166,7 @@
                 par-tests
                 pares-nataurais-tests
                 ultimo-numero-tests
-                ordena-crescente-tests)
+                ordena-crescente-tests
+                ;remove-duplicados-tests
+                )
      
