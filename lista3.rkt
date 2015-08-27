@@ -196,27 +196,39 @@
 
 ;;;;;;; Exercício 3.16 ;;;;;;
 
-(define t1 (arvore-bin 1 empty empty))
-(define t2 (arvore-bin 2 t1 empty))
-(define t3 (arvore-bin 3 t1 t2))
-(define t4 (arvore-bin 4 t2 t3))
+(define av1 (arvore-bin 1 empty empty))
+(define av2 (arvore-bin 2 av1 empty))
+(define av3 (arvore-bin 3 av1 av2))
+
 
 (define arvore-busca-tests
   (test-suite
    "Exercicio 3.16"
    (check-equal? (arvore-busca? empty) #t)
-   (check-equal? (arvore-busca? t1) #t)
-   (check-equal? (arvore-busca? t2) #t)
-   (check-equal? (arvore-busca? t3) #f)
+   (check-equal? (arvore-busca? av1) #t)
+   (check-equal? (arvore-busca? av2) #t)
+   (check-equal? (arvore-busca? av3) #f)
+   ))
+
+(define (raiz-de-busca? t)
+  (and
+   (or (empty? (arvore-bin-esq t))
+       (<
+        (arvore-bin-v (arvore-bin-esq t))
+        (arvore-bin-v t)))
+   (or (empty? (arvore-bin-dir t))
+       (>
+        (arvore-bin-v (arvore-bin-dir t))
+        (arvore-bin-v t)))
    ))
 
 (define (arvore-busca? t)
   (cond
     [(empty? t) #t]
-    [
-    [else (if (and (< (arvore-bin-esq t) (arvore-bin-v t))
-              (< (arvore-bin-v t) (arvore-bin-dir t)))
-         )]))
+    [else (and(raiz-de-busca? t)
+         (arvore-busca? (arvore-bin-dir t))
+         (arvore-busca? (arvore-bin-esq t)))]))
+   
 
 
 ;;;;;;; Exercício 3.17 ;;;;;;
@@ -238,5 +250,6 @@
                 remove-duplicados-tests
                 reverter-tests
                 soma-n-arvore-tests
+                arvore-busca-tests
                 )
      
