@@ -19,7 +19,7 @@
 
 (define esta-na-lista-tests
   (test-suite
-   "está na lista?"
+   "Exercício 3.1"
    (check-equal? (esta-na-lista? empty 1) #f)
    (check-equal? (esta-na-lista? (list 5) 5) #t)
    (check-equal? (esta-na-lista? (list 2 5 3 7) 3) #t)
@@ -38,7 +38,7 @@
 
 (define remove-n-tests
   (test-suite
-   "remove n da lista"
+   "Exercício 3.2"
    (check-equal? (remove-n empty 1) empty)
    (check-equal? (remove-n (list 5) 5) empty)
    (check-equal? (remove-n (list 2 5 3 5 7 5) 5) (list 2 3 7))))
@@ -65,7 +65,7 @@
 
 (define pares-nataurais-tests
   (test-suite
-   "pares naturais"
+   "Exercício 3.7"
    (check-equal? (sem-pares-naturais empty) empty)
    (check-equal? (sem-pares-naturais (list 5)) (list 5))
    (check-equal? (sem-pares-naturais (list 2)) empty)
@@ -87,7 +87,7 @@
 
 (define ultimo-numero-tests
   (test-suite
-   "último número"
+   "Exercício 3.8"
    (check-exn exn:fail? (thunk (ultimo-numero empty)))
    (check-equal? (ultimo-numero (list 5)) 5)
    (check-equal? (ultimo-numero (list 2 5 3 6 7)) 7)))
@@ -110,7 +110,7 @@
 
 (define ordena-crescente-tests
   (test-suite
-   "ordena crescente"
+   "Exercício 3.11"
    (check-equal? (ordena-crescente empty) empty)
    (check-equal? (ordena-crescente (list 2 5 3 6 7)) (list 2 3 5 6 7))
    (check-equal? (ordena-crescente (list 2 5 3 6 7 1 3)) (list 1 2 3 3 5 6 7))))
@@ -130,7 +130,7 @@
 
 (define remove-duplicados-tests
   (test-suite
-   "remove duplicados"
+   "Exercício 3.12"
    (check-equal? (remove-duplicados empty) empty)
    (check-equal? (remove-duplicados (list 2 2 5 3 6 6 7)) (list 2 5 3 6 7))
    (check-equal? (remove-duplicados (list 2 2 5 5 5 5 3 3 6 6 7 7 1 1 3 3)) (list 2 5 3 6 7 1 3))))
@@ -148,7 +148,7 @@
 
 (define reverter-tests
   (test-suite
-   "reverter"
+   "Exercício 3.13"
    (check-equal? (reverter (list (list 2 3) 8 (list 9 (list 10 11) 50) (list 10) 70)) (list 70 (list 10) (list 50 (list 11 10) 9) 8 (list 3 2)) )
    (check-equal? (reverter empty) empty)
    (check-equal? (reverter (list 2 3 8)) (list 8 3 2))
@@ -178,7 +178,7 @@
 
 (define soma-n-arvore-tests
   (test-suite
-   "reverter"
+   "Exercício 3.15"
    (check-equal? (soma-n-arvore empty 0) empty)
    (check-equal? (soma-n-arvore t1 1) tt1)
    (check-equal? (soma-n-arvore t2 1) tt2)
@@ -233,6 +233,23 @@
 
 ;;;;;;; Exercício 3.17 ;;;;;;
 
+(define esta-na-arvore-tests
+  (test-suite
+   "Exercicio 3.17"
+   (check-equal? (is-in-tree? empty 1) #f)
+   (check-equal? (is-in-tree? av1 2) #f)
+   (check-equal? (is-in-tree? av2 1) #t)
+   ))
+
+(define (is-in-tree? t n)
+  (cond
+    [(empty? t) #f]
+    [(equal? n (arvore-bin-v t)) #t]
+    [(< n (arvore-bin-v t)) (is-in-tree? (arvore-bin-esq t) n) ]
+    [else (is-in-tree? (arvore-bin-dir t) n)]
+    ))
+
+
 
 
 ;;;;;;;; Executa tests ;;;;;;;;;;;;;
@@ -251,5 +268,6 @@
                 reverter-tests
                 soma-n-arvore-tests
                 arvore-busca-tests
+                esta-na-arvore-tests
                 )
      
