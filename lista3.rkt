@@ -146,10 +146,78 @@
 
 ;;;;;;; Exercício 3.13 ;;;;;;
 
+(define reverter-tests
+  (test-suite
+   "reverter"
+   (check-equal? (reverter (list (list 2 3) 8 (list 9 (list 10 11) 50) (list 10) 70)) (list 70 (list 10) (list 50 (list 11 10) 9) 8 (list 3 2)) )
+   (check-equal? (reverter empty) empty)
+   (check-equal? (reverter (list 2 3 8)) (list 8 3 2))
+   (check-equal? (reverter (list (list 8) 2 )) (list 2 (list 8)))
+   ))
+
+(define (reverter lst)
+  (cond
+    [(empty? lst) empty]
+    [(list? (first lst))
+     (append (reverter (rest lst)) (list(reverter(first lst)))) ]
+    [else
+     (append (reverter (rest lst)) (list(first lst)))]))
+
 
 ;;;;;;; Exercício 3.15 ;;;;;;
+(struct arvore-bin (v esq dir) #:transparent)
+(define t1 (arvore-bin 1 empty empty))
+(define t2 (arvore-bin 2 t1 empty))
+(define t3 (arvore-bin 3 t1 t2))
+(define t4 (arvore-bin 4 t2 t3))
+
+(define tt1 (arvore-bin 2 empty empty))
+(define tt2 (arvore-bin 3 (arvore-bin 2 empty empty) empty))
+
+
+
+(define soma-n-arvore-tests
+  (test-suite
+   "reverter"
+   (check-equal? (soma-n-arvore empty 0) empty)
+   (check-equal? (soma-n-arvore t1 1) tt1)
+   (check-equal? (soma-n-arvore t2 1) tt2)
+   ))
+
+(define (soma-n-arvore t n)
+  (cond
+    [(empty? t) empty]
+    [else (arvore-bin
+      (+ n (arvore-bin-v t))
+      (soma-n-arvore (arvore-bin-esq t) n)
+      (soma-n-arvore (arvore-bin-dir t) n))]))
+
+
 
 ;;;;;;; Exercício 3.16 ;;;;;;
+
+(define t1 (arvore-bin 1 empty empty))
+(define t2 (arvore-bin 2 t1 empty))
+(define t3 (arvore-bin 3 t1 t2))
+(define t4 (arvore-bin 4 t2 t3))
+
+(define arvore-busca-tests
+  (test-suite
+   "Exercicio 3.16"
+   (check-equal? (arvore-busca? empty) #t)
+   (check-equal? (arvore-busca? t1) #t)
+   (check-equal? (arvore-busca? t2) #t)
+   (check-equal? (arvore-busca? t3) #f)
+   ))
+
+(define (arvore-busca? t)
+  (cond
+    [(empty? t) #t]
+    [
+    [else (if (and (< (arvore-bin-esq t) (arvore-bin-v t))
+              (< (arvore-bin-v t) (arvore-bin-dir t)))
+         )]))
+
 
 ;;;;;;; Exercício 3.17 ;;;;;;
 
@@ -168,5 +236,7 @@
                 ultimo-numero-tests
                 ordena-crescente-tests
                 remove-duplicados-tests
+                reverter-tests
+                soma-n-arvore-tests
                 )
      
