@@ -54,6 +54,40 @@
 
 ;;; Exercício 4.5 ;;;;
 
+(define quant-primos-tests
+  (test-suite
+   "Exercício 4.5"
+   (check-equal? (primo? 1) #t)
+   (check-equal? (primo? 5) #t)
+   (check-equal? (primo? 2) #t)
+   (check-equal? (primo? 3) #t)
+   (check-equal? (primo? 4) #f)
+   (check-equal? (primo? 15) #f)
+   (check-equal? (quant-primos 1 1) 1)
+   (check-equal? (quant-primos 1 2) 2)
+   (check-equal? (quant-primos 1 4) 3)
+   (check-equal? (quant-primos 5 19) 6)
+   ))
+
+(define (fator? x n)
+  (cond
+    [(= x 1) #f]
+    [(zero? (modulo n x)) #t]
+    [else (fator? (sub1 x) n)]))
+
+(define (primo? n)
+  (cond
+    [(= n 1) #t]
+    [else (not(fator? (sub1 n) n))]))
+
+(define (quant-primos i f)
+    (cond
+      [(> i f) 0]
+      [(primo? i) (add1 (quant-primos (add1 i) f))]
+      [else (quant-primos (add1 i) f)]))
+
+
+
 ;;;;;;;; Executa tests ;;;;;;;;;;;;;
 
 (define (executa-testes . testes)
@@ -62,5 +96,5 @@
 
 (executa-testes fatorial-tests
                 operacoes-tests
-                
+                quant-primos-tests
                 )
