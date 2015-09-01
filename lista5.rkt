@@ -57,6 +57,21 @@
 
 ;;;;;; Exercício 5.6 ;;;;;
 
+(define sub-lista-tests
+  (test-suite
+   "Exercício 5.6"
+   (check-equal? (sub-lista (list 10 20 30 40 50) 1 4) (list 20 30 40))
+   (check-exn exn:fail? (thunk (sub-lista empty 2 5)))
+   (check-exn exn:fail? (thunk (sub-lista (list 1 2 3) 1 0)))
+   ))
+
+(define (sub-lista lst i f)
+  (cond
+    [(empty? lst) (error "Lista Vazia")]
+    [(> i f) (error "Intervalo inválido")]
+    [else (and (zero? i)
+          empty)]))
+
 ;;;;;; Exercício 5.7 ;;;;;
 
 ;;;;;; Exercício 5.8 ;;;;;
@@ -72,4 +87,5 @@
 (executa-testes apaga-tests
                 apaga-em-tests
                 insere-em-tests
+                sub-lista-tests
                 )
