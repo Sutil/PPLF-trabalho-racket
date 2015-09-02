@@ -60,6 +60,7 @@
 (define sub-lista-tests
   (test-suite
    "Exercício 5.6"
+   (check-equal? (sub-lista (list 10 20 30 40 50) 1 1) empty)
    (check-equal? (sub-lista (list 10 20 30 40 50) 1 4) (list 20 30 40))
    (check-exn exn:fail? (thunk (sub-lista empty 2 5)))
    (check-exn exn:fail? (thunk (sub-lista (list 1 2 3) 1 0)))
@@ -69,13 +70,44 @@
   (cond
     [(empty? lst) (error "Lista Vazia")]
     [(> i f) (error "Intervalo inválido")]
-    [else (and (zero? i)
-          empty)]))
+    [(= i f) empty]
+    [(zero? i) (cons (first lst) (sub-lista (rest lst) i (sub1 f)))]
+    [else (sub-lista (rest lst) (sub1 i) (sub1 f))]))
 
 ;;;;;; Exercício 5.7 ;;;;;
 
+(define rotacao-esq-tests
+  (test-suite
+   "Exercício 5.7"
+   (check-equal? (rotacao-esq (list 10 20 30 40 50) 1) (list 20 30 40 50 10))
+   (check-equal? (rotacao-esq (list 10 20 30 40 50) 4) (list 50 10 20 30 40))
+   (check-equal? (rotacao-esq (list 10 20 30) 3) (list 10 20 30))
+   (check-exn exn:fail? (thunk (rotacao-esq empty 2)))
+   ))
+
+(define (rotacao-esq lst r)
+  (cond
+    [(empty? lst) (error "Lista vazia")]
+    [(zero? r) lst]
+    [else  (rotacao-esq
+            (append (rest lst) (list (first lst)))
+            (sub1 r)) ]))
+
 ;;;;;; Exercício 5.8 ;;;;;
 
+(define juncao-tests
+  (test-suite
+   "Exercício 5.8"
+   (check-equal? (juncao empty empty) empty)
+   (check-equal? (append (list 3 7 12) (list 2 4 5)) (list 3 7 12 2 4 5))
+   (check-equal? (append (list 1) (list 2)) (list 1 2))
+   ))
+
+(define (juncao lst1 lst2)
+  (cond
+    [(empty? lst1) lst2]
+    [(empty? lst2) lst1]
+    [else (cons (first lst1) (juncao (rest lst1) lst2))]))
 
 
 ;;;;;;;; Executa tests ;;;;;;;;;;;;;
@@ -88,4 +120,6 @@
                 apaga-em-tests
                 insere-em-tests
                 sub-lista-tests
+                rotacao-esq-tests
+                juncao-tests
                 )
