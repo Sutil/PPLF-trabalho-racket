@@ -69,35 +69,62 @@
 
 (define exercicio-4-5-tests
   (test-suite
-   "Exercício 4.5"
-   (check-equal? (primo? 1) #t)
-   (check-equal? (primo? 5) #t)
+   "Exercicio 4.5"
+   (check-equal? (conta-primos 2 1) "Erro intervalo invalido.")
+   (check-equal? (conta-primos 0 0) 0)
+   (check-equal? (conta-primos 1 1) 0)
+   (check-equal? (conta-primos 0 3) 2)
+   (check-equal? (conta-primos 0 100) 25)
+   ))
+
+(define (conta-primos x y)
+  (cond
+    [(> x y) "Erro intervalo invalido."]
+    [(> x (sub1 y)) 0]
+    [else
+     (if (primo? y)
+           (add1 (conta-primos x (sub1 y)))
+           (conta-primos x (sub1 y)))]))
+
+;;Natural -> Boolean
+;;Devolve verdadeiro se um numero é primo, falso caso contrario
+(define primo?-test
+  (test-suite
+   "Primo?"
+   (check-equal? (primo? 0) #f)
+   (check-equal? (primo? 1) #f)
    (check-equal? (primo? 2) #t)
    (check-equal? (primo? 3) #t)
    (check-equal? (primo? 4) #f)
-   (check-equal? (primo? 15) #f)
-   (check-equal? (quant-primos 1 1) 1)
-   (check-equal? (quant-primos 1 2) 2)
-   (check-equal? (quant-primos 1 4) 3)
-   (check-equal? (quant-primos 5 19) 6)
+   (check-equal? (primo? 5) #t)
    ))
 
-(define (fator? x n)
+(define (primo? x)
   (cond
-    [(= x 1) #f]
-    [(zero? (modulo n x)) #t]
-    [else (fator? (sub1 x) n)]))
+    [(<= x 1) #f]
+    [else
+     (not(tem-divisor-entre-2-i? x (sub1 x)))]))
 
-(define (primo? n)
+;;Natural -> Natural
+;;Devolve verdadeiro se existe ao menos um divisor de x entre 2 e i,
+;;falso caso contrario.
+(define tem-divisor-entre-2-i?-test
+  (test-suite
+   "tem-divisor-entre-2-i?"
+   (check-equal? (tem-divisor-entre-2-i? 0 1) #f)
+   (check-equal? (tem-divisor-entre-2-i? 2 1) #f)
+   (check-equal? (tem-divisor-entre-2-i? 2 2) #t)
+   (check-equal? (tem-divisor-entre-2-i? 5 4) #f)
+   (check-equal? (tem-divisor-entre-2-i? 5 9) #t)
+   ))
+
+(define (tem-divisor-entre-2-i? x d)
   (cond
-    [(= n 1) #t]
-    [else (not(fator? (sub1 n) n))]))
-
-(define (quant-primos i f)
-    (cond
-      [(> i f) 0]
-      [(primo? i) (add1 (quant-primos (add1 i) f))]
-      [else (quant-primos (add1 i) f)]))
+    [(<= d 1) #f]
+    [else
+     (if(zero? (modulo x d))
+          #t
+          (tem-divisor-entre-2-i? x (sub1 d)))]))
 
 
 ;;;;;;;;;;;; Executa tests ;;;;;;;;;;;;
@@ -112,5 +139,7 @@
 
 (executa-testes exercicio-4-1-tests
                 exercicio-4-2-tests
+                primo?-test
+                tem-divisor-entre-2-i?-test
                 exercicio-4-5-tests
                 )
