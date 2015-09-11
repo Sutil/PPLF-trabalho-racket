@@ -63,7 +63,7 @@
    "Exercício 6.11"
    (check-equal? (mapeia + (list 1 2 3) (list 4 5 6) (list 7 8 9)) (list 12 15 18))
    (check-equal? (mapeia - (list 10 20 30) (list 5 10 15)) (list 5 10 15))
-   (check-equal? (mapeia list (list 1 2 3) (list 4 5 6) (list 7 8 9)) (list (list 1 4 7) (list 2 5 8) (list 3 6 9)))
+   (check-equal? (mapeia list (list 1 2 3) (list 4 5 6)) (list (list 1 4) (list 2 5) (list 3 6)))
    ))
 
 (define (mapeia f . listas)
