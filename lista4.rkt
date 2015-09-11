@@ -3,9 +3,12 @@
 (require rackunit)
 (require rackunit/text-ui)
 
-;;; Exercício 4.1 ;;;
+;;;;;;;;;;;; Exercício 4.1 ;;;;;;;;;;;;
+;;Defina uma função que calcule o fatorial de um número.
+;;Natural -> Natural
+;;Devolve o fatorial de um numero
 
-(define fatorial-tests
+(define exercicio-4-1-tests
   (test-suite
    "Exercício 4.1"
    (check-equal? (fatorial 1) 1)
@@ -20,9 +23,13 @@
     [else (* n (fatorial (sub1 n)))]))
 
 
-;;; Exercício 4.2 ;;;;
+;;;;;;;;;;;; Exercício 4.2 ;;;;;;;;;;;;
+;;Utilizando apenas as funções primitivas zero?, add1 e sub1, escreva as funções +, - e *. 
+;;Cada função deve receber como parâmetro dois números naturais e executar a operação aritmética apropriada.
+;;Natural Natural -> Natural
+;;Definição individual.
 
-(define operacoes-tests
+(define exercicio-4-2-tests
   (test-suite
    "Exercício 4.2"
    (check-equal? (soma 5 4) 9)
@@ -33,16 +40,19 @@
    (check-equal? (multiplicacao 2 5) 10)
    ))
 
+;;Devolve a soma de dois numeros naturais.
 (define (soma x y)
   (cond
     [(zero? x) y]
     [else (soma(sub1 x) (add1 y))]))
 
+;;Devolve a subtração entre dois numeros naturais.
 (define (subtracao x y)
   (cond
     [(zero? y) x]
     [else (subtracao(sub1 y) (sub1 x))]))
 
+;;Devolve a multiplicação entre dois numeros naturais.
 (define (multiplicacao x y)
   (define (mult-acc x y acc)
     (cond
@@ -52,9 +62,12 @@
 )
 
 
-;;; Exercício 4.5 ;;;;
+;;;;;;;;;;;; Exercício 4.5 ;;;;;;;;;;;;
+;;Defina uma função que conte quantos números primos existem em um dado intervalo.
+;;Natural Natural -> Natural
+;;Devolve a quantidade de numeros primos existentes entre i f
 
-(define quant-primos-tests
+(define exercicio-4-5-tests
   (test-suite
    "Exercício 4.5"
    (check-equal? (primo? 1) #t)
@@ -87,14 +100,17 @@
       [else (quant-primos (add1 i) f)]))
 
 
-
-;;;;;;;; Executa tests ;;;;;;;;;;;;;
+;;;;;;;;;;;; Executa tests ;;;;;;;;;;;;
+;; Teste ... -> Void
+;; Executa um conjunto de testes.
 
 (define (executa-testes . testes)
   (run-tests (test-suite "Execução tests" testes))
   (void))
 
-(executa-testes fatorial-tests
-                operacoes-tests
-                quant-primos-tests
+;; Chama a função para executar os testes.
+
+(executa-testes exercicio-4-1-tests
+                exercicio-4-2-tests
+                exercicio-4-5-tests
                 )
