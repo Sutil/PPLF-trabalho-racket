@@ -44,13 +44,31 @@
 
 ;;;; Exercício 6.11 ;;;
 
-#;(define mapeia-tests
+(define mapeia-tests
   (test-suite
    "Exercício 6.11"
    (check-equal? (mapeia + (list 1 2 3) (list 4 5 6) (list 7 8 9)) (list 12 15 18))
-   ;(check-equal? (concatena (list 3) (list 4)) (list 3 4))
-   ;(check-equal? (concatena (list 1 2)) (list 1 2))
+   (check-equal? (concatena (list 3) (list 4)) (list 3 4))
+   (check-equal? (concatena (list 1 2)) (list 1 2))
    ))
+
+(define (mapeia f . listas)
+
+  (define (map-duas-listas f lst1 lst2)
+    (cond
+      [(not (equal? (length lst1) (length lst2))) (error "tamanhos diferentes")]
+      [(empty? lst1) empty]
+      [else (cons (f (first lst1) (first lst2)) (map-duas-listas f (rest lst1) (rest lst2)) )]))
+
+  (define (mapeia-acc f acc listas)
+  (cond
+    [(empty? listas) acc]
+    [else (mapeia-acc f (map-duas-listas f acc (first listas)) (rest listas))]))
+  
+  (cond
+    [(empty? listas) empty]
+    [else (mapeia-acc f (first listas) (rest listas))]))
+    
 
 ;;;; Exercício 6.12 ;;;;
 
@@ -76,5 +94,6 @@
 
 (executa-testes cont-tests
                 concatena-tests
+                mapeia-tests
                 paridade-tests
                 )
