@@ -3,7 +3,6 @@
 (require rackunit)
 (require rackunit/text-ui)
 
-
 ;#
 ;(define exemplo-tests
 ;  (test-suite
@@ -12,12 +11,12 @@
 ;   (check-equal? (cons-fim 3 (list 5)) (list 5 3))
 ;   (check-equal? (cons-fim 8 (list 2 5)) (list 2 5 8))))
 
-
 ;;;;;;;;;;;;;;;; Exercício 3.1 ;;;;;;;;;
-
 ;Defina uma função que verifique se um determinado elemento está em uma lista.
+;Lista -> Boolean
+;Devolve verdadeiro se o elemento n está na lista, falso caso contrario.
 
-(define esta-na-lista-tests
+(define exercicio-3-1-test
   (test-suite
    "Exercício 3.1"
    (check-equal? (esta-na-lista? empty 1) #f)
@@ -35,8 +34,10 @@
 ;;;;;;;;;;;; Exercício 3.2 ;;;;;;;;;;;;;;
 ;;Defina uma função que receba com entrada uma lista lst e um elemento a e devolva uma lista que é
 ;;como lst mas sem as ocorrências de a.
+;;Lista Natural -> Lista
+;;Devolve uma lista mas sem qualquer ocorrencia de n.
 
-(define remove-n-tests
+(define exercicio-3-2-tests
   (test-suite
    "Exercício 3.2"
    (check-equal? (remove-n empty 1) empty)
@@ -51,10 +52,11 @@
         (cons (first lst) (remove-n (rest lst) n)))]))
     
 
-;;;; Exercício 3.7 ;;;;;;
-;;Defina uma função
-;;que receba como entrada uma lista lst de número naturais e devolva uma lista
-;que é como lst mas sem números pares
+;;;;;;;;;;;; Exercício 3.7 ;;;;;;;;;;;;
+;;Defina uma função que receba como entrada uma lista lst de 
+;;número naturais e devolva uma lista que é como lst mas sem números pares
+;;Lista -> Lista
+;;Devolve uma lista, mas sem a ocorencia de numeros pares.
 
 (define par-tests
   (test-suite
@@ -63,7 +65,7 @@
    (check-equal? (par? 8) #t)))
 
 
-(define pares-nataurais-tests
+(define exercicio-3-7-tests
   (test-suite
    "Exercício 3.7"
    (check-equal? (sem-pares-naturais empty) empty)
@@ -80,12 +82,13 @@
     [(not(par? (first lst))) (cons (first lst) (sem-pares-naturais (rest lst))) ]
     [else (sem-pares-naturais (rest lst))]))
 
+;;;;;;;;;;;; Exercício 3.8 ;;;;;;;;;;;;
+;;Defina uma função que devolva o último elemento de uma lista.
+;;Use a função error (com uma string de mensagem como argumento) para indicar erro se a lista for vazia.
+;;Lista -> Numero
+;;Devolve o ultimo elemento de uma lista ou mensagem de erro caso ela seja vazia.
 
-;;;;;;; Exercício 3.8 ;;;;;;
-;Defina uma função que devolva o último elemento de uma lista.
-;Use a função error (com uma string de mensagem como argumento) para indicar erro se a lista for vazia.
-
-(define ultimo-numero-tests
+(define exercicio-3-8-tests
   (test-suite
    "Exercício 3.8"
    (check-exn exn:fail? (thunk (ultimo-numero empty)))
@@ -99,7 +102,13 @@
     [else (ultimo-numero (rest lst))]))
 
 
-;;;;;;; Exercício 3.11 ;;;;;;
+;;;;;;;;;;;; Exercício 3.11 ;;;;;;;;;;;;
+;;Defina uma função que receba como entrada uma lista de números e devolva uma lista como os
+;;mesmos valores de entrada mas em ordem crescente. (Lembre-se de aplicar a receita de projeto, não
+;;tente implementar um método de ordenação qualquer, a receita te levará a implementar um método
+;;específico). Dica: use a função insere-ordenado.
+;; Lista -> Lista
+;; Devolve uma nova lista com os mesmos elemento de lst, mas em ordem crescente.
 
 (define (insere-ordenado n lst)
   (cond
@@ -108,7 +117,7 @@
     [else (cons (first lst)
                 (insere-ordenado n (rest lst)))]))
 
-(define ordena-crescente-tests
+(define exercicio-3-11-tests
   (test-suite
    "Exercício 3.11"
    (check-equal? (ordena-crescente empty) empty)
@@ -125,10 +134,13 @@
   (ordena-crescente-lista lst empty))
 
           
+;;;;;;;;;;;; Exercício 3.12 ;;;;;;;;;;;;
+;;Defina uma função que receba como entrada uma lista lst e devolva uma nova lista que
+;;é como lst com apenas uma ocorrência dos elementos repetidos consecutivos.
+;;Lista -> Lista
+;;Devolve uma lista sem a ocorrencia de elementos consecutivos duplicados.
 
-;;;;;;; Exercício 3.12 ;;;;;;
-
-(define remove-duplicados-tests
+(define exercicio-3-12-tests
   (test-suite
    "Exercício 3.12"
    (check-equal? (remove-duplicados empty) empty)
@@ -144,9 +156,14 @@
              (cons (first lst) (remove-duplicados (rest lst))))]
     ))
 
-;;;;;;; Exercício 3.13 ;;;;;;
 
-(define reverter-tests
+;;;;;;;;;;;; Exercício 3.13 ;;;;;;;;;;;;
+;;Defina uma função que receba como entrada uma lista aninhada lst e devolva uma nova lista aninhada
+;;como os mesmo elementos de lst mas em ordem reversa.
+;;Lista aninhada -> Lista aninhada
+;;Devolve uma lista aninhada na ordem inversa a lista de entrada.
+
+(define exercicio-3-13-tests
   (test-suite
    "Exercício 3.13"
    (check-equal? (reverter (list (list 2 3) 8 (list 9 (list 10 11) 50) (list 10) 70)) (list 70 (list 10) (list 50 (list 11 10) 9) 8 (list 3 2)) )
@@ -164,7 +181,12 @@
      (append (reverter (rest lst)) (list(first lst)))]))
 
 
-;;;;;;; Exercício 3.15 ;;;;;;
+;;;;;;;;;;;; Exercício 3.15 ;;;;;;;;;;;;
+;;Defina uma função que receba como entrada uma árvore binária t e um número n e devolva uma nova
+;;árvore binária que é como t mas com n somado a cada elemento.
+;;Árvore_binaria Natural -> Árvore_binaria
+;;Devolve uma árvore binaria, mas com n somado a cada um dos elementos da árvore.
+
 (struct arvore-bin (v esq dir) #:transparent)
 (define t1 (arvore-bin 1 empty empty))
 (define t2 (arvore-bin 2 t1 empty))
@@ -174,9 +196,7 @@
 (define tt1 (arvore-bin 2 empty empty))
 (define tt2 (arvore-bin 3 (arvore-bin 2 empty empty) empty))
 
-
-
-(define soma-n-arvore-tests
+(define exercicio-3-15-tests
   (test-suite
    "Exercício 3.15"
    (check-equal? (soma-n-arvore empty 0) empty)
@@ -193,15 +213,21 @@
       (soma-n-arvore (arvore-bin-dir t) n))]))
 
 
-
-;;;;;;; Exercício 3.16 ;;;;;;
+;;;;;;;;;;;; Exercício 3.16 ;;;;;;;;;;;;
+;;Defina uma função que verifique se uma árvore binária é uma árvore binária de busca.
+;;Uma árvore binária de busca tem as seguintes propriedades: 
+;; 1) A subárvore a esquerda contém valores nos nós menores que o valor no nó raiz.
+;; 2) A subárvore a direita contém valores nos nós maiores que o valor no nó raiz.
+;; 3) As subárvores a esquerda e a direita também são árvores binárias de busca.
+;;Arvore_binária -> Boolean
+;;Devolve verdadeiro se a árvore binária for uma árvore binária de busca ou falso caso contrario.
 
 (define av1 (arvore-bin 1 empty empty))
 (define av2 (arvore-bin 2 av1 empty))
 (define av3 (arvore-bin 3 av1 av2))
 
 
-(define arvore-busca-tests
+(define exercicio-3-16-tests
   (test-suite
    "Exercicio 3.16"
    (check-equal? (arvore-busca? empty) #t)
@@ -230,10 +256,12 @@
          (arvore-busca? (arvore-bin-esq t)))]))
    
 
+;;;;;;;;;;;; Exercício 3.17 ;;;;;;;;;;;;
+;;Defina uma função que verifique se um elemento está em uma árvore binária de busca.
+;;Ávore_binária_busca Natural -> Boolean
+;;Devolve verdadeiro se n está na árvore binária de busca.
 
-;;;;;;; Exercício 3.17 ;;;;;;
-
-(define esta-na-arvore-tests
+(define exercicio-3-17-tests
   (test-suite
    "Exercicio 3.17"
    (check-equal? (is-in-tree? empty 1) #f)
@@ -250,24 +278,25 @@
     ))
 
 
-
-
-;;;;;;;; Executa tests ;;;;;;;;;;;;;
+;;;;;;;;;;;; Executa tests ;;;;;;;;;;;;
+;; Teste ... -> Void
+;; Executa um conjunto de testes.
 
 (define (executa-testes . testes)
   (run-tests (test-suite "Todos os testes" testes))
   (void))
 
-(executa-testes esta-na-lista-tests
-                remove-n-tests
+;; Chama a função para executar os testes.
+
+(executa-testes exercicio-3-1-test
+                exercicio-3-2-tests
                 par-tests
-                pares-nataurais-tests
-                ultimo-numero-tests
-                ordena-crescente-tests
-                remove-duplicados-tests
-                reverter-tests
-                soma-n-arvore-tests
-                arvore-busca-tests
-                esta-na-arvore-tests
+                exercicio-3-7-tests
+                exercicio-3-8-tests
+                exercicio-3-11-tests
+                exercicio-3-12-tests
+                exercicio-3-13-tests
+                exercicio-3-15-tests
+                exercicio-3-16-tests
+                exercicio-3-17-tests
                 )
-     
