@@ -2,18 +2,19 @@
 (require rackunit)
 (require rackunit/text-ui)
 
+;;;;;;;;;;;;; Exercício 7.1 -> 3.2 ;;;;;;;;;;;;;
+;;Defina uma função que receba com entrada uma lista lst e um elemento a e 
+;;devolva uma lista que é como lst mas sem as ocorrências de a.
+;;Lista Natural -> Lista
+;;Devolve uma lista mas sem qualquer ocorrencia de n.
 
-
-;;;;;; Exercício 7.1 -> 3.2 ;;;;;
-
-(define remove-n-tests
+(define exercicio-7-1-3-2-tests
   (test-suite
    "Exercício 7.1 -> 3.2"
    (check-equal? (remove-n empty 1) empty)
    (check-equal? (remove-n (list 5) 5) empty)
    (check-equal? (remove-n (list 2 5 3 7 5) 5) (list 2 3 7))
    ))
-
 
 (define (remove-n lst n)
   (define (iter lst0 n0 acc)
@@ -24,9 +25,13 @@
   (iter lst n empty))
 
 
-;;;;;; Exercício 7.1 -> 3.7 ;;;;;
+;;;;;;;;;;;;; Exercício 7.1 -> 3.7 ;;;;;;;;;;;;;
+;;Defina uma função que receba como entrada uma lista lst de 
+;;número naturais e devolva uma lista que é como lst mas sem números pares
+;;Lista -> Lista
+;;Devolve uma lista, mas sem a ocorencia de numeros pares.
 
-(define pares-nataurais-tests
+(define exercicio-7-1-3-7-tests
   (test-suite
    "Exercício 7.1 -> 3.7"
    (check-equal? (sem-pares-naturais empty) empty)
@@ -37,7 +42,6 @@
 (define (par? x)
     (equal? (modulo x 2) 0))
 
-
 (define (sem-pares-naturais lst)
   (define (iter lst0 acc)
     (cond
@@ -46,9 +50,13 @@
       [else (iter (rest lst0) (append acc (list (first lst0))))]))
   (iter lst empty))
 
-;;;;;; Exercício 7.1 -> 3.9 ;;;;;
 
-(define maximo-tests
+;;;;;;;;;;;;; Exercício 7.1 -> 3.9 ;;;;;;;;;;;;;
+;;Defina uma função que encontre o valor máximo de uma lista de números.
+;;Lista -> Número
+;;Devolve o valor máximo de lst. Se a lista for vazia, gera um erro.
+
+(define exercicio-7-1-3-9-tests
   (test-suite
    "Exercício 7.1 -> 3.9"
    (check-exn exn:fail? (thunk (maximo empty)))
@@ -68,11 +76,14 @@
   (cond
     [(empty? lst) (error "Lista vazia")]
     [else (iter lst (first lst))]))
-      
 
-;;;;;; Exercício 7.2 -> 4.1 ;;;;;
 
-(define fatorial-tests
+;;;;;;;;;;;;; Exercício 7.2 -> 4.1 ;;;;;;;;;;;;;
+;;Defina uma função que calcule o fatorial de um número.
+;;Natural -> Natural
+;;Devolve o fatorial de um numero
+
+(define exercicio-7-2-4-1-tests
   (test-suite
    "Exercício 7.2 -> 4.1"
    (check-equal? (fatorial 1) 1)
@@ -88,14 +99,18 @@
       [else (iter (sub1 x) (* acc x))]))
   (iter n 1))
 
-;;;;;; Exercício 7.2 -> 4.5 ;;;;;
 
-(define quant-primos-tests
+;;;;;;;;;;;;; Exercício 7.2 -> 4.5 ;;;;;;;;;;;;;
+;;Defina uma função que conte quantos números primos existem em um dado intervalo.
+;;Natural Natural -> Natural
+;;Devolve a quantidade de numeros primos existentes entre i f
+
+(define exercicio-7-2-4-5-tests
   (test-suite
    "Exercício 7.2 -> 4.5"
-   (check-equal? (quant-primos 1 1) 1)
-   (check-equal? (quant-primos 1 2) 2)
-   (check-equal? (quant-primos 1 4) 3)
+   (check-equal? (quant-primos 1 1) 0)
+   (check-equal? (quant-primos 1 2) 1)
+   (check-equal? (quant-primos 1 4) 2)
    (check-equal? (quant-primos 5 19) 6)
    ))
 
@@ -107,7 +122,7 @@
 
 (define (primo? n)
   (cond
-    [(= n 1) #t]
+    [(= n 1) #f]
     [else (not(fator? (sub1 n) n))]))
 
 (define (quant-primos i f)
@@ -119,15 +134,19 @@
   (iter i f 0))
       
 
-;;;;;;;; Executa tests ;;;;;;;;;;;;;
+;;;;;;;;;;;; Executa tests ;;;;;;;;;;;;
+;; Teste ... -> Void
+;; Executa um conjunto de testes.
 
 (define (executa-testes . testes)
   (run-tests (test-suite "Execução tests" testes))
   (void))
 
-(executa-testes remove-n-tests
-                pares-nataurais-tests
-                maximo-tests
-                fatorial-tests
-                quant-primos-tests
+;; Chama a função para executar os testes.
+
+(executa-testes exercicio-7-1-3-2-tests
+                exercicio-7-1-3-7-tests
+                exercicio-7-1-3-9-tests
+                exercicio-7-2-4-1-tests
+                exercicio-7-2-4-5-tests
                 )
