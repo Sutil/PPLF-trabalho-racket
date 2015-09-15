@@ -2,6 +2,14 @@
 (require rackunit)
 (require rackunit/text-ui)
 
+;;;;;;;;;;;;;;;;; Exercício 7.1 ;;;;;;;;;;;;;;;;;
+;; ACUMULADORES
+;;Quando usamos acumuladores, conseguimos fazer recursão em calda 
+;;resolvendo, a cada iteração, uma parte do problema. Aqui o processo se
+;;torna Itarativo, desta forma, o compilador consegue otimizar a execução da função.
+;;Por outro lado, quando não usamos acumuladores, a resolução do problema acontece 
+;;no retorno da recursao e o compilador não consegue otimizar.
+
 ;;;;;;;;;;;;; Exercício 7.1 -> 3.2 ;;;;;;;;;;;;;
 ;;Defina uma função que receba com entrada uma lista lst e um elemento a e 
 ;;devolva uma lista que é como lst mas sem as ocorrências de a.
